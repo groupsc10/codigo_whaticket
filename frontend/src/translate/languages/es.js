@@ -223,6 +223,7 @@ const messages = {
 			transferTicketModal: {
 				title: "Transferir Ticket",
 				fieldLabel: "Escriba para buscar usuarios",
+				comments: "Comentarios",
 				noOptions: "No se encontraron usuarios con ese nombre",
 				buttons: {
 					ok: "Transferir",

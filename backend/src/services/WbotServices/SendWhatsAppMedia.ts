@@ -13,6 +13,7 @@ interface Request {
   media: Express.Multer.File;
   ticket: Ticket;
   body?: string;
+  staks?: number
 }
 
 const publicFolder = path.resolve(__dirname, "..", "..", "..", "public");
@@ -113,7 +114,8 @@ export const getMessageOptions = async (
 const SendWhatsAppMedia = async ({
   media,
   ticket,
-  body
+  body,
+  staks = 0
 }: Request): Promise<WAMessage> => {
   try {
     const wbot = await GetTicketWbot(ticket);
@@ -152,7 +154,7 @@ const SendWhatsAppMedia = async ({
         fileName: media.originalname,
         mimetype: media.mimetype
       };
-     } else if (typeMessage === "application") {
+    } else if (typeMessage === "application") {
       options = {
         document: fs.readFileSync(pathMedia),
         caption: body,
@@ -177,6 +179,11 @@ const SendWhatsAppMedia = async ({
 
     return sentMessage;
   } catch (err) {
+    console.log("Erro ao enviar mensagem, tentando novamente...");
+    if (staks < 5) {
+      await new Promise((r) => setTimeout(r, 1000));
+      return await SendWhatsAppMedia({ media, ticket, body, staks: staks + 1 });
+    }
     Sentry.captureException(err);
     console.log(err);
     throw new AppError("ERR_SENDING_WAPP_MSG");

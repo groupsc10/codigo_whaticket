@@ -119,6 +119,14 @@ const TransferTicketModal = ({ modalOpen, onClose, ticketid }) => {
 							/>
 						)}
 					/>
+					<TextField
+						style={{ width: 300 }}
+						label={i18n.t("transferTicketModal.fieldLabel")}
+						variant="outlined"
+						required
+						autoFocus
+						onChange={e => setSearchParam(e.target.value)}
+					/>
 				</DialogContent>
 				<DialogActions>
 					<Button

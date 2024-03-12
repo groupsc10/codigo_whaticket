@@ -43,6 +43,7 @@ const TransferTicketModalCustom = ({ modalOpen, onClose, ticketid }) => {
   const [searchParam, setSearchParam] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedQueue, setSelectedQueue] = useState("");
+  const [comments, setComments] = useState("");
   const classes = useStyles();
   const { findAll: findAllQueues } = useQueues();
   const isMounted = useRef(true);
@@ -106,6 +107,10 @@ const TransferTicketModalCustom = ({ modalOpen, onClose, ticketid }) => {
 
       if (selectedUser) {
         data.userId = selectedUser.id;
+      }
+
+      if (comments) {
+        data.comments = comments;
       }
 
       if (selectedQueue && selectedQueue !== null) {
@@ -172,7 +177,10 @@ const TransferTicketModalCustom = ({ modalOpen, onClose, ticketid }) => {
               />
             )}
           />
-          <FormControl variant="outlined" className={classes.maxWidth}>
+          <FormControl 
+           variant="outlined" 
+           style={{ width: 300, marginBottom: 20 }}
+           className={classes.maxWidth} >
             <InputLabel>
               {i18n.t("transferTicketModal.fieldQueueLabel")}
             </InputLabel>
@@ -188,6 +196,14 @@ const TransferTicketModalCustom = ({ modalOpen, onClose, ticketid }) => {
               ))}
             </Select>
           </FormControl>
+          <br/>
+          <TextField
+            style={{ width: 300, marginBottom: 20 }}
+            value={comments}
+            onChange={(e) => setComments(e.target.value)}
+            label={i18n.t("transferTicketModal.comments")}
+            variant="outlined"
+          />
         </DialogContent>
         <DialogActions>
           <Button
